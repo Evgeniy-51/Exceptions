@@ -14,6 +14,9 @@ class RuntimeException(Exception):
 class DiffLengths(Exception):
     pass
 
+class ZeroDivision(Exception):
+    pass
+
 
 def diff_arrays(arr1, arr2):
     res_arr = []
@@ -22,14 +25,18 @@ def diff_arrays(arr1, arr2):
             raise DiffLengths()
         else:
             for i in range(len(arr1)):
-                res_arr.append(arr1[i] - arr2[i])
+                if arr2[i] == 0:
+                    raise ZeroDivision()
+                res_arr.append(arr1[i] / arr2[i])
         return res_arr
     except DiffLengths:
         raise RuntimeException("Lengths are different")
+    except ZeroDivision:
+        raise RuntimeException("Division by zero")
     except:
         raise RuntimeException()
 
 
 arr1 = [3, 6, 7, 3, 7]
-arr2 = [5, 6, 4, 7, 8]
+arr2 = [5, 6, 4, 2, 8]
 print(diff_arrays(arr1, arr2))
